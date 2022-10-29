@@ -1,0 +1,29 @@
+- name: Set a hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Check if we need change /etc/hosts
+  register: hosts_actual
+  failed_when: false
+  changed_when: false
+  raw: grep -i "127.0.0.1 {{ inventory_hostname }}" /etc/hosts
+
+- name: Replace old hostname with new hostname in /etc/hosts
+  when: hosts_actual.rc != 0
+  lineinfile:
+    path: /etc/hosts
+    regexp: "^127.0.1.1 ((?!localhost).)*$"
+    line: "127.0.0.1 {{ inventory_hostname }}"
+    backup: yes
+
+- name: Upgrade the OS (apt-get dist-upgrade)
+  apt:
+    upgrade: dist
+
+- name: Remove useless packages from the cache
+  apt:
+    autoclean: yes
+
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: yes

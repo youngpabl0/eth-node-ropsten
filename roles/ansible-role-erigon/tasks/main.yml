@@ -1,0 +1,12 @@
+- name: erigon config
+  template:
+    src: erigon.nomad
+    dest: /opt/nomad/
+    owner: root
+    mode: 0700
+
+- name: apply nomad job for erigon
+  command: /usr/local/bin/nomad job run --detach erigon.nomad
+  args:
+    chdir: /opt/nomad
+  ignore_errors: True

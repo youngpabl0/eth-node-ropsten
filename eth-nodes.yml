@@ -1,0 +1,20 @@
+---
+- hosts: eth_nodes
+  become: yes
+  gather_facts: true
+  pre_tasks:
+    - name: Check for Python
+      raw: test -e /usr/bin/python
+      changed_when: false
+      failed_when: false
+      register: check_python
+
+    - name: Install Python
+      raw: apt -y update && apt install -y python
+      when: check_python.rc != 0
+  roles:
+    - { role: ansible-role-server-update, tags: ["update"] }
+    - { role: ansible-role-docker, tags: ["docker"] }
+    - { role: ansible-role-consul, tags: ["consul"] }
+    - { role: ansible-role-nomad, tags: ["nomad"] }
+    - { role: ansible-role-erigon, tags: ["erigon"] }

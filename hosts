@@ -1,0 +1,5 @@
+# file: hosts
+
+[eth_nodes]
+# example
+# eth-node ansible_host=192.168.80.136 ansible_user=<user> ansible_password=<user_password> ansible_become_password=<user_password>
