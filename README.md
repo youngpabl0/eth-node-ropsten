@@ -12,7 +12,7 @@
 
 #### How to use:
 
-`git clone https://github.com/youngpabl0/eth-node-ropsten.git && cd eth-node`
+`git clone https://github.com/youngpabl0/eth-node-ropsten.git && cd eth-node-ropsten`
 
 `add your hosts to hosts (like in example)`
 
